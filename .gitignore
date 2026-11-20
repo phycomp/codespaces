@@ -1,0 +1,14 @@
+# Environment files with secrets
+.env
+rakazo/.env
+
+# Docker
+docker-compose.override.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

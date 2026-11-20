@@ -32,8 +32,30 @@ Set one of these in `rakazo/.env`:
 - `OPENROUTER_API_KEY` — OpenRouter (supports many models)
 - `OPENAI_API_KEY` — OpenAI
 - `ANTHROPIC_API_KEY` — Anthropic
+- `OPENCODE_GO_API_KEY` — OpenCode Go (OpenAI-compatible, see below)
 
 Or connect a model in the Rakazo UI after signup.
+
+### OpenCode Go (本機 opencode 對接)
+
+OpenCode Go 提供 OpenAI 相容的 API 端點，可直接與 Rakazo 對接：
+
+1. **取得 API Key**：前往 [OpenCode Console](https://opencode.ai/console) → API Keys
+2. **設定環境變數**：在 `rakazo/.env` 中加入：
+   ```
+   OPENCODE_GO_API_KEY=oc_sk_...
+   ```
+3. **在 Rakazo UI 中新增自訂 Provider**：
+   - Provider 類型：OpenAI Compatible
+   - Base URL：`https://opencode.ai/inference/openai/v1`
+   - API Key：你的 `OPENCODE_GO_API_KEY`
+   - Model ID：`deepseek-v4.1-flash`（或其他可用模型）
+4. **可用模型**：
+   - `deepseek-v4.1-flash` — DeepSeek V4.1 Flash（快速、低成本）
+   - 其他模型請參考 [OpenCode Console Models](https://opencode.ai/docs/console/models)
+
+> **注意**：OpenCode Go 的 API Key 格式為 `oc_sk_...`，與 OpenCode Console 的 key 不同。
+> OpenCode Go 是訂閱制（含用量），適合需要穩定模型存取的場景。
 
 ### Sandbox Provider
 
