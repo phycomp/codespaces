@@ -92,3 +92,42 @@ Codespace Container (Docker-in-Docker)
 - [Rakazo Docs](https://rakazo.com/docs/)
 - [Rakazo GitHub](https://github.com/elie222/rakazo)
 - [Rakazo Self-Hosting Guide](https://rakazo.com/docs/self-host/)
+
+## Multi-Agent Setup (Router + Workers)
+
+This repository includes a pre-configured 4-agent architecture:
+
+| Agent | Role | Permissions |
+|-------|------|-------------|
+| **Router** | Routes tasks to workers | read, search, subagent |
+| **Planner** | Explores and plans | read, search, web |
+| **Coder** | Implements code | read, edit, shell |
+| **Reviewer** | Reviews code quality | read, search |
+
+### Configuration
+
+The agent configuration is in `opencode.jsonc`. It is automatically installed
+to `~/.config/opencode/opencode.jsonc` during Codespace creation.
+
+### Usage
+
+```bash
+# Start OpenCode with Router as default agent
+opencode
+
+# Delegate to specific workers
+@planner "Plan the implementation of user authentication"
+@coder "Implement the auth module based on the plan"
+@reviewer "Review the auth implementation"
+```
+
+### Delegation Flow
+
+```
+User → Router → @Planner → Plan → Router
+                    → @Coder → Implement → Router
+                    → @Reviewer → Review → Router
+                         → Summary → User
+```
+
+For detailed agent setup instructions, see the `mnpl-rakazo` and `mnpl-agent` skills.

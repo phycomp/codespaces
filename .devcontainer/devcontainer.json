@@ -11,14 +11,16 @@
       "configureZshAsDefaultShell": false
     }
   },
-  "forwardPorts": [5173],
+  "forwardPorts": [
+    5173
+  ],
   "portsAttributes": {
     "5173": {
       "label": "Rakazo Web UI",
       "onAutoForward": "openPreview"
     }
   },
-  "postCreateCommand": "bash scripts/setup-rakazo.sh",
+  "postCreateCommand": "bash scripts/setup-rakazo.sh && bash scripts/setup-agents.sh",
   "postStartCommand": "cd rakazo && docker compose --env-file .env -f infra/compose/docker-compose.images.yml up -d 2>/dev/null || true",
   "hostRequirements": {
     "cpus": 4,
@@ -28,7 +30,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "sst-dev.opencode"
       ]
     }
   }

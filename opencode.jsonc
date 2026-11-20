@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/deepseek-v4.1-flash-free",
+  "small_model": "opencode/deepseek-v4.1-flash-free",
+  "default_agent": "router",
+  "agents": {
+    "router": {
+      "description": "Routes incoming tasks to the appropriate worker agent",
+      "mode": "primary",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "system": "You are the router. Analyze user requests and delegate to the appropriate worker: planner (for design/planning), coder (for implementation), reviewer (for code review). Summarize results from workers.",
+      "permissions": [
+        { "action": "read", "resource": "*", "effect": "allow" },
+        { "action": "glob", "resource": "*", "effect": "allow" },
+        { "action": "grep", "resource": "*", "effect": "allow" },
+        { "action": "subagent", "resource": "*", "effect": "allow" }
+      ],
+      "steps": 50
+    },
+    "planner": {
+      "description": "Explores codebase and produces implementation plans",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "system": "You are the planner. Explore the codebase and produce detailed implementation plans. Do not edit files. Output steps, files to change, and risks. When done, report back.",
+      "permissions": [
+        { "action": "read", "resource": "*", "effect": "allow" },
+        { "action": "glob", "resource": "*", "effect": "allow" },
+        { "action": "grep", "resource": "*", "effect": "allow" },
+        { "action": "webfetch", "resource": "*", "effect": "allow" },
+        { "action": "websearch", "resource": "*", "effect": "allow" }
+      ],
+      "steps": 20
+    },
+    "coder": {
+      "description": "Implements code changes based on plans",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "system": "You are the coder. Implement code changes based on plans. Read, edit, and run shell commands as needed. Report results concisely. When done, report back.",
+      "permissions": [
+        { "action": "read", "resource": "*", "effect": "allow" },
+        { "action": "glob", "resource": "*", "effect": "allow" },
+        { "action": "grep", "resource": "*", "effect": "allow" },
+        { "action": "shell", "resource": "*", "effect": "allow" },
+        { "action": "edit", "resource": "*", "effect": "allow" }
+      ],
+      "steps": 30
+    },
+    "reviewer": {
+      "description": "Reviews code for correctness, security, and quality",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "system": "You are the reviewer. Review code for correctness, security, and missing tests. Do not edit files. Report findings in severity order with file and line references. When done, report back.",
+      "permissions": [
+        { "action": "read", "resource": "*", "effect": "allow" },
+        { "action": "glob", "resource": "*", "effect": "allow" },
+        { "action": "grep", "resource": "*", "effect": "allow" }
+      ],
+      "steps": 12
+    }
+  }
+}
