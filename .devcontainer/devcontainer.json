@@ -1,0 +1,35 @@
+{
+  "name": "Rakazo on Codespaces",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": false
+    }
+  },
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Rakazo Web UI",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "bash scripts/setup-rakazo.sh",
+  "postStartCommand": "cd rakazo && docker compose --env-file .env -f infra/compose/docker-compose.images.yml up -d 2>/dev/null || true",
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "32gb"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}
